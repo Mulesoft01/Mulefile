@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f6f44518-f8d4-44ed-b24e-e7c38ee5f6a0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="a300d563-3c61-4d21-8b7e-8391bc30757b" />
+	<flow name="fileFlow" doc:id="78a2946a-14bf-4dcf-986e-d3148f478920" >
+		<http:listener doc:name="Listener" doc:id="52f03815-ac4a-4458-a989-9b0e938945d4" config-ref="HTTP_Listener_config" path="/file"/>
+		<file:read doc:name="Read" doc:id="d4dd8bbd-4fb1-463b-8609-0ca24d3e5141" config-ref="File_Config" path="C:\Users\Robin\Documents\file.txt"/>
+		<logger level="INFO" doc:name="Logger" doc:id="297e3b49-de66-4ea4-82a6-94507c084456" message="new file is created "/>
+		<file:write doc:name="Write" doc:id="c251b85d-a56e-4a65-a64e-5c79590cc6d1" config-ref="File_Config" path="C:\Users\Robin\Documents\file01.txt">
+			<file:content ><![CDATA[welcome  to the file write ]]></file:content>
+		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="5e152a95-2c61-4683-adeb-eefc778dfde0" message="#[payload]"/>
+		<file:rename doc:name="Rename" doc:id="6d2ed474-2435-4f3f-818f-d9fddd17e7a3" config-ref="File_Config" path="C:\Users\Robin\Documents\file01.txt" to="file02"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a75074b5-9657-414b-8b76-b9581fd9fbc0" message="file is renamed "/>
+	</flow>
+</mule>
