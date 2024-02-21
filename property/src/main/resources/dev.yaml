@@ -1,0 +1,7 @@
+####### Http listener configuration #########
+http:
+  host: "localhost"
+  port: "8084"
+  path: "/hi"
+
+
